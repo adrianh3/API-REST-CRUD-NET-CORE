@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chamba Tio Ales</title>
+	<meta charset="utf-8">
+	<script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+
+	<script>
+
+		$(document).on('ready',function () {
+
+			var gyr = 0;
+
+// BTN Mostrar y Ocultar --------------------------------------------------------------------------------------------------------
+
+			var count = 1;
+			var nombre,ap,am;
+			var nombrex,apx,amx;
+
+			$("#btnI").on( "click", function() {
+				
+				$('#tabla2').show();
+				$('#btnC').show();
+
+				gyr=1;
+
+			});
+
+			$("#btnC").on( "click", function() {
+
+					$('#idt2').val('');
+					$('#nombret2').val('');
+					$('#apPt2').val('');
+					$('#apMt2').val('');
+
+					$('#tabla2').hide();
+					$('#btnC').hide();
+
+});
+
+//BTN Guardar -------------------------------------------------------------------------------------------------------------------
+
+			$("#btnG").on( "click", function() {
+
+
+				var id = $('#idt2').val();
+				var nombre = $('#nombret2').val();
+				var ap = $('#apPt2').val();
+				var am = $('#apMt2').val();
+
+
+				if (gyr == 1){
+
+
+
+
+			if (id.length == 0 || id.nombre == 0 || ap.length == 0 || am.length == 0 ){
+
+				alert('Hay campos vacios');
+				$('#btnC').hide();
+				gyr=0;
+
+			}else{
+
+   			var add = '<tr id="' + id + '">'+
+
+       						 '<td id="' + id + '">' + id + '</td>'+
+       						 '<td id="' + id + '1">' + nombre + '</td>'+
+        					 '<td id="' + id + '2">' + ap + '</td>'+
+        					 '<td id="' + id + '3">' + am + '</td>'+
+        					 '<td id="' + id + '4">' + '<input type="button" class="borrar" value="Eliminar">' + '</td>'+
+        					 '<td id="' + id + '5">' + '<input type="button" class="editar" value="Editar" id="' + id +'">' + '</td>'+
+      						'</tr>';
+
+      						gyr=0;
+      							$("#idt2").prop('disabled', false);
+      						$('#btnC').hide();
+     
+			}
+
+} 
+//Aqui empieza la editada
+
+if (gyr == 2) {
+
+	var nombre2 = $('#nombret2').val();
+	var ap2 = $('#apPt2').val();
+	var am2 = $('#apMt2').val();
+
+	$(nombrex).html(nombre2);
+	$(apx).html(ap2);
+	$(amx).html(am2);
+$("#idt2").prop('disabled', false);
+
+gyr=0;
+
+}
+
+//Aqui termina la editada	
+
+   				$('#tabla1 tbody').append(add);
+
+   					$('#idt2').val('');
+					$('#nombret2').val('');
+					$('#apPt2').val('');
+					$('#apMt2').val('');
+
+					$('#tabla2').hide();
+					$('#btnC').hide();
+
+				});
+
+
+
+//BTN Eliminar ----------------------------------------------------------------------------------------------------------
+
+$(function () {
+    $(document).on('click', '.borrar', function (event) {
+        event.preventDefault();
+        $(this).closest('tr').remove();
+    });
+});
+
+
+//BTN Editar ------------------------------------------------------------------------------------------------------
+
+$(function () {
+    $(document).on('click', '.editar', function (event) {
+        event.preventDefault();
+$("#idt2").prop('disabled', true);
+        gyr = 2;
+
+        $('#tabla2').show();
+		$('#btnC').show();
+
+		var id;
+
+		id = $(this).attr("id");
+		nombre = $('#' + id + '1').text();
+		ap = $('#' + id + '2').text();
+		am = $('#' + id + '3').text();
+
+		nombrex = '#' + id + '1';
+		apx = '#' + id + '2';
+		amx = '#' + id + '3';
+
+
+		$('#idt2').val(id);
+		$('#nombret2').val(nombre);
+		$('#apPt2').val(ap);
+		$('#apMt2').val(am);
+
+
+    });
+
+});
+
+
+//incio de JSON boton ------------------------------------------------------------------------------------------
+
+
+
+
+
+
+});
+
+
+
+	</script>
+
+<style type="text/css">
+
+	#btnC{
+	
+	display:none;
+
+	}
+
+	#tabla2{
+
+		display:none;
+		
+	}
+	
+	table
+	{
+		border: black 2px solid;
+	}
+
+	td
+	{
+		border: black 2px solid;	
+	}	
+
+	#btnG
+	{
+		width: 200px;
+		 color:white;
+		 background:#63E70D;
+	}
+
+	#btnI
+	{
+		width: 200px;
+		 color:white;
+		 background:#638cb5;
+	}
+
+	#btnE
+	{
+		width: 200px;
+		 color:white;
+		 background:#811459;
+	}
+	#btnC
+	{
+		width: 200px;
+		 color:white;
+		 background:#898487;
+	}
+	#json{
+
+		width:450px;
+		background: #A8A8A8;
+		height:250px; 
+
+	}
+
+</style>
+
+</head>
+
+<body>
+
+<table id="tabla1">
+	<tr>
+		<td>id</td>
+		<td>Nombre</td>
+		<td>ApellidoP</td>
+		<td>ApellidoM</td>	
+		<td>Opc1</td>
+		<td>Opc2</td>	
+
+	</tr>
+
+	<tr id="1">
+		
+		<td id="1">1</td>
+		<td id="11">Adrian</td>
+		<td id="12">Trejo</td>
+		<td id="13">Perez</td>
+		<td id="14"><input type="button" class="borrar" value="Eliminar" id="1"></td>	
+		<td id="15"><input type="submit"  value="Editar" class="editar" id="1"></td>	
+
+	</tr>
+
+	<tr id="2">
+		
+		<td id="2">2</td>
+		<td id="21">Roberto</td>
+		<td id="22">Gomez</td>
+		<td id="23">Bolaños</td>
+		<td id="24"><input type="button" class="borrar" value="Eliminar" id="2"></td>	
+		<td id="25"><input type="submit"  value="Editar" class="editar" id="2"></td>	
+
+	</tr>
+
+</table>
+
+<br><br>
+
+
+
+<table id="tabla2" d>
+	<tr>
+		<td>id</td>
+		<td>Nombre</td>
+		<td>ApellidoP</td>
+		<td>ApellidoM</td>	
+
+	</tr>
+
+	<tr>
+		
+		<td><input type="text" id="idt2" name="idt2" value="" ></td>
+		<td><input type="text" id="nombret2" name="nombret2" value="" ></td>
+		<td><input type="text" id="apPt2" name="apPt2" value="" ></td>
+		<td><input type="text" id="apMt2" name="apMt2" value="" ></td>	
+
+	</tr>
+
+</table>
+
+	<br>
+		
+	<input type="submit" name="cancela" value="Cancelar" id="btnC">
+	<br><br>					
+	<input type="submit" name="guardar" value="Guardar" id="btnG">
+	<input type="submit" name="insertar" value="Insertar" id="btnI">
+	<input type="submit" name="exportar" value="Exportar" id="btnE">
+	
+		
+	<div id="json">
+		
+ 
+ 		<p>adrian</p>
+
+
+	</div>
+
+
+</body>
+
+</html>

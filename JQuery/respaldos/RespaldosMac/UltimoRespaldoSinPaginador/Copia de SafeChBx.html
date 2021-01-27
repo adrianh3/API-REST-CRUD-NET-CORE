@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Uso de objetos</title>
+		<meta charset="utf-8">
+	<script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+	<script >
+
+		//Variables globales
+			var gyr = 0; 
+			var json ="";
+			var empleados = [];
+			var idCount = 0;
+			var myObj = {};
+			var myObjFiltro = {};
+			var IdEditar;
+			var IdEditarVF;
+			let sinRepetidos = [];
+		//-------
+
+		$(document).on('ready',function () {
+
+			$('input#Filtro').on("keyup",function(){
+
+				var adn = $(this).val();
+				Filtro(adn);
+
+			});
+
+
+			$("#btnInsertar").on( "click", function() {
+				
+				$('#tabla2').show();
+				$('#btnCancelar').show();
+				gyr=1;
+			});
+
+			$("#btnCancelar").on( "click", function() {
+
+					$('#idt2').val('');
+					$('#nombret2').val('');
+					$('#apPt2').val('');
+					$('#apMt2').val('');
+					$('#edad').val('');
+
+					$('#tabla2').hide();
+					$('#btnCancelar').hide();
+
+			});
+
+
+$("#btnGuardar").on( "click", function() {
+
+				var nombre = $('#nombret2').val();
+				var ap = $('#apPt2').val();
+				var am = $('#apMt2').val();
+				var edad = $('#edad').val();
+
+
+				var comprobar='';
+
+				if ($('#activo').prop('checked')){
+					comprobar ='checked';
+					activo=true;
+				}else{
+					comprobar='';
+					activo=false;
+				}
+
+
+				if (gyr == 1){
+
+				if ( ap.length == 0 || am.length == 0 || nombre.length == 0 || edad.length == 0  ){
+
+				alert('Hay campos vacios');
+				$('#btnCancelar').show();
+				gyr=1;
+					
+					}else{
+
+				idCount ++;
+				var id = idCount;
+
+				var emp = new Empleado(id,nombre,ap,am,edad,activo);
+				empleados.push(emp);
+
+				myObj.Empleados = empleados;
+
+			cargarDatos();
+				gyr=0;
+      		Limpiar();
+
+
+						}	
+
+				}
+	if (gyr == 2) {
+
+
+	var nombre2 = $('#nombret2').val();
+	var ap2 = $('#apPt2').val();
+	var am2 = $('#apMt2').val();
+	var ed2 = $('#edad').val();
+
+
+	if ($('#activo').prop('checked')){
+		cheObj=true;
+
+	}else{
+		cheObj=false;
+	}
+
+	let obj = empleados.find(o => o.Id == IdEditar);
+
+	obj.Nombre = nombre2;
+	obj.ApellidoPaterno = ap2;
+	obj.ApellidoMaterno = am2;
+	obj.Edad = ed2;
+	obj.Activo=cheObj;
+
+	gyr=0;
+
+	Limpiar();
+	cargarDatos();
+					
+ 	}
+
+});
+
+
+$("#btnExportar").on( "click", function() {
+	myObj.Empleados = empleados;
+	$('#jsonP').html(JSON.stringify(myObj));
+	});
+});
+
+//funciones
+
+function ChecarBox(){
+
+	$("#ListaNombre option").remove(); 
+	$("#ListaAp option").remove(); 
+	$("#ListaAm option").remove(); 
+	$("#ListaEd option").remove(); 
+
+	//---Nombres
+	var nombresEm = empleados;
+		var hash = {};
+		nombresEm = nombresEm.filter(function(current) {
+  		var exists = !hash[current.Nombre] || false;
+  		hash[current.Nombre] = true;
+  		return exists;
+	});
+	for (var i = 0; i < nombresEm.length; i++) {
+		$('#ListaNombre').append('<option>' + nombresEm[i].Nombre +'</option>');
+	}
+	//---ApellidoPaterno
+	var apellidoPEm = empleados;
+		var hash = {};
+		apellidoPEm = apellidoPEm.filter(function(current) {
+  		var exists = !hash[current.ApellidoPaterno] || false;
+  		hash[current.ApellidoPaterno] = true;
+  		return exists;
+	});
+
+	for (var i = 0; i < apellidoPEm.length; i++) {
+		$('#ListaAp').append('<option>' + apellidoPEm[i].ApellidoPaterno +'</option>');
+	}
+	//---ApellidoMaterno
+
+	var apellidoMEm = empleados;
+		var hash = {};
+		apellidoMEm = apellidoMEm.filter(function(current) {
+  		var exists = !hash[current.ApellidoMaterno] || false;
+  		hash[current.ApellidoMaterno] = true;
+  		return exists;
+	});
+	for (var i = 0; i < apellidoMEm.length; i++) {
+		$('#ListaAm').append('<option>' + apellidoMEm[i].ApellidoMaterno +'</option>');
+	}
+
+	//Edad----------
+ 	var edadEm = empleados;
+		var hash = {};
+		edadEm = edadEm.filter(function(current) {
+  		var exists = !hash[current.Edad] || false;
+  		hash[current.Edad] = true;
+  		return exists;
+	});
+	for (var i = 0; i < edadEm.length; i++) {
+		$('#ListaEd').append('<option>' + edadEm[i].Edad +'</option>');
+	}
+}
+function Eliminar(id){
+
+ var ids = id;
+ let indice = empleados.findIndex(o => o.Id === ids);
+ empleados.splice(indice,1);
+	cargarDatos();
+
+ }
+
+function Editar(id){
+
+	IdEditar=id;
+	gyr = 2;
+
+	    $('#tabla2').show();
+		$('#btnCancelar').show();
+
+	    var nombre = $('*[data-nombre="'+id+'"]').html();
+	    var apellidoPaterno = $('*[data-ApP="'+id+'"]').html();
+	    var apellidoMaterno = $('*[data-ApM="'+id+'"]').html();
+	    var edadd = $('*[data-Edad="'+id+'"]').html();
+
+	    //var Activoo = $('*[data-Activo="'+id+'"]').prop('checked');
+
+	    if ($('*[data-Activo="'+id+'"]').prop('checked')) {
+	    	IdEditarVF=true;
+	    	$('#activo').prop("checked", true);
+	    }else{
+	    	IdEditarVF=false;
+			$('#activo').prop("checked", false);	
+	    }
+
+		$('#nombret2').val(nombre);
+		$('#apPt2').val(apellidoPaterno);
+		$('#apMt2').val(apellidoMaterno);
+		$('#edad').val(edadd);
+}
+function Limpiar(){
+
+	     		$("#idt2").prop('disabled', false);
+      			$('#btnCancelar').hide();
+
+   					$('#idt2').val('');
+					$('#nombret2').val('');
+					$('#apPt2').val('');
+					$('#apMt2').val('');
+					$('#edad').val('');
+					$('#activo').val('');
+					$('#tabla2').hide();
+					$('#btnC').hide();
+}	
+function Empleado(id,nombre,ap,am,edad,activo){
+
+		this.Id=id;
+		this.Nombre= nombre;
+		this.ApellidoPaterno=ap;
+		this.ApellidoMaterno=am;
+		this.Edad=edad;
+		this.Activo=activo;
+}			
+function cargarDatos(){
+    
+    $("#tabla1 tbody").empty(); 
+
+    var DatosJson = JSON.parse(JSON.stringify(myObj));
+        
+    for (i = 0; i < DatosJson.Empleados.length; i++){
+
+    			var ids=empleados[i].Id;
+
+				if (DatosJson.Empleados[i].Activo == true){
+					comprobar ='checked';
+				}else{
+					comprobar='';
+				}
+
+ 			$("#tabla1 tbody").append('<tr>' + 
+   				 '<td align="center" style="dislay:none; id="'+ids+'">' + ids + '</td>'+
+    			 '<td data-nombre="'+ids+'" align="center" style="dislay:none; id="'+ids+'">' + DatosJson.Empleados[i].Nombre + '</td>'+
+    			 '<td data-ApP="'+ids+'" align="center" style="dislay:none; id="'+ids+'">' + DatosJson.Empleados[i].ApellidoPaterno + '</td>'+
+    			 '<td data-ApM="'+ids+'" align="center" style="dislay:none; id="'+ids+'">' + DatosJson.Empleados[i].ApellidoMaterno + '</td>'+
+    			 '<td data-Edad="'+ids+'" align="center" style="dislay:none; id="'+ids+'">' + DatosJson.Empleados[i].Edad + '</td>'+
+
+    			 '<td align="center" style="dislay:none; id="'+ids+'">' + '<input data-Activo="'+ids+'" type="checkbox" '+ comprobar +' class="activo" disabled value="activo"  id="' + ids+'">' + '</td>'+
+
+    			 '<td align="center" style="dislay:none; id="'+ids+'">' + '<input type="button" class="eliminar" value="Eliminar" onclick="Eliminar('+ids+')" id="'+ids+'">' + '</td>'+
+
+    			 '<td align="center" style="dislay:none; id="'+ids+'">' + '<input type="button" class="editar" value="Editar" onclick="Editar('+ids+')" id="'+ids+'">' +  '</td>'+'</tr>');
+    }
+
+		ChecarBox();
+}
+function Filtro(adn){
+
+	var idicies=[];
+
+	//------
+
+		for (var i = 0; i <empleados.length; i++) {
+					
+				if (empleados[i].Nombre.includes(adn)){
+
+						idicies.push(empleados[i]);
+				}
+
+				if (empleados[i].ApellidoPaterno.includes(adn)){
+
+						idicies.push(empleados[i]);
+				}
+
+				if (empleados[i].ApellidoMaterno.includes(adn)){
+
+						idicies.push(empleados[i]);
+				}
+				if (empleados[i].Edad.includes(adn)){
+
+						idicies.push(empleados[i]);
+				}
+		}
+
+	sinRepetidos = idicies.filter((valor, indiceActual, arreglo) => arreglo.indexOf(valor) === indiceActual);
+
+
+	console.log(sinRepetidos);
+
+	//------
+	myObjFiltro.Filtro = sinRepetidos;
+
+  $('#Filtro2').html(adn);	
+
+
+  if (adn==''){
+  	cargarDatos();
+  }else{
+  	cargarDatosFiltro();
+  }
+}
+function cargarDatosFiltro(){
+
+ $("#tabla1 tbody").remove(); 
+
+    var DatosJsons = JSON.parse(JSON.stringify(myObjFiltro));
+        
+    for (i = 0; i < DatosJsons.Filtro.length; i++){
+
+    			var ids=empleados[i].Id;
+
+				if (DatosJsons.Filtro[i].Activo == true){
+					comprobar ='checked';
+				}else{
+					comprobar='';
+				}
+
+ 			$("#tabla1").append('<tr>' + 
+   				 '<td align="center" style="dislay:none; id="'+ids+'">' + ids + '</td>'+
+    			 '<td data-nombre="'+ids+'" align="center" style="dislay:none; id="'+ids+'">' + DatosJsons.Filtro[i].Nombre + '</td>'+
+    			 '<td data-ApP="'+ids+'" align="center" style="dislay:none; id="'+ids+'">' + DatosJsons.Filtro[i].ApellidoPaterno + '</td>'+
+    			 '<td data-ApM="'+ids+'" align="center" style="dislay:none; id="'+ids+'">' + DatosJsons.Filtro[i].ApellidoMaterno + '</td>'+
+    			 '<td data-Edad="'+ids+'" align="center" style="dislay:none; id="'+ids+'">' + DatosJsons.Filtro[i].Edad + '</td>'+
+
+    			 '<td align="center" style="dislay:none; id="'+ids+'">' + '<input data-Activo="'+ids+'" type="checkbox" '+ comprobar +' class="activo" disabled value="activo"  id="' + ids+'">' + '</td>'+
+
+    			 '<td align="center" style="dislay:none; id="'+ids+'">' + '<input type="button" class="eliminar" value="Eliminar" onclick="Eliminar('+ids+')" id="'+ids+'">' + '</td>'+
+
+    			 '<td align="center" style="dislay:none; id="'+ids+'">' + '<input type="button" class="editar" value="Editar" onclick="Editar('+ids+')" id="'+ids+'">' +  '</td>'+'</tr>');
+    }
+}
+
+
+
+	
+
+	</script>
+
+
+
+</head>
+
+
+
+<body>
+
+	<table id="tabla1">
+		<thead>
+	<tr id="tsr" class="">
+
+		<th>id</th>
+		
+
+		<th>Nombre ->
+			<select id="ListaNombre">
+					<option id="opNo">Nombres</option>
+			</select>
+		</th>
+
+		<th>Apellido Paterno ->
+			<select id="ListaAp">
+					<option id="opAp">Apellidos P.</option>
+			</select>
+		</th>
+
+		<th>Apellido Materno ->
+			<select id="ListaAm">
+					<option id="opAm">Apellidos M.</option>
+			</select>
+		</th>	
+
+		<th>Edad ->
+			<select id="ListaEd">
+					<option id="opEd">Edad</option>
+			</select>
+		</th>
+
+
+		<th>Activo</th>
+		<th>Opc1</th>
+		<th>Opc2</th>	
+
+	</tr>
+	</thead>
+	<tbody>
+
+	</tbody>
+
+	</table>
+
+<br>
+
+<table id="tabla2">
+	<tr>
+		<td>Nombre</td>
+		<td>Apellido Paterno</td>
+		<td>Apellido Materno</td>
+		<th>Edad</th>
+		<th>Activo</th>	
+
+	</tr>
+
+	<tr>
+
+		<td><input type="text" id="nombret2" name="nombret2" value="" ></td>
+		<td><input type="text" id="apPt2" name="apPt2" value="" ></td>
+		<td><input type="text" id="apMt2" name="apMt2" value="" ></td>	
+		<td><input type="text" id="edad" name="edad2" value="" ></td>
+		<td> <input type="checkbox" id="activo" name="activo" value="true" checked> </td>	
+
+	</tr>
+
+</table>
+
+	<br>
+		
+	<input type="submit" name="cancela" value="Cancelar" id="btnCancelar">
+	<br><br>					
+	<input type="submit" name="guardar" value="Guardar" id="btnGuardar">
+	<input type="submit" name="insertar" value="Insertar" id="btnInsertar">
+	<input type="submit" name="exportar" value="Exportar" id="btnExportar">
+	
+		
+	<div id="json">
+		
+ 
+ 		<p id="jsonP"></p>
+
+
+	</div>
+
+<br>
+<h2>Filtro Chido</h2>
+
+<input type="text" name="filtro" placeholder="Filtro" id="Filtro">
+
+<h4>Se esta buscando: </h4>
+<p id="Filtro2"></p>
+
+
+</body>
+
+<style type="text/css">
+
+	#Filtro{
+		width:400px;
+		background-color:#BBBBBB;
+		color:black;
+		font-size: 20px;
+		height:50px;  
+	}
+
+	#btnC{
+	
+	display:none;
+
+	}
+
+	#tabla2{
+
+		display:none;
+		
+	}
+	
+	table
+	{
+		border: black 1px solid;
+	}
+
+	th{
+border: black 1px solid;
+
+	}
+
+	td
+	{
+		border: black 1px solid;	
+	}	
+
+	#btnGuardar
+	{
+		width: 200px;
+		 color:white;
+		 background:#63E70D;
+	}
+
+	#btnInsertar
+	{
+		width: 200px;
+		 color:white;
+		 background:#638cb5;
+	}
+
+	#btnExportar
+	{
+		width: 200px;
+		 color:white;
+		 background:#811459;
+	}
+	#btnCancelar
+	{
+		width: 200px;
+		 color:white;
+		 display:none;
+		 background:#898487;
+	}
+	#json{
+
+		width:900px;
+		background: #A8A8A8;
+		height:150px; 
+
+	}
+
+</style>
+</html>

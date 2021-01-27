@@ -1,0 +1,7 @@
+WINDOWS AUTHENTICATION
+Server name = DESKTOP-QH9SD98
+
+SQL SERVER AUTHENTICATION 
+
+user = sa
+password = adrian20

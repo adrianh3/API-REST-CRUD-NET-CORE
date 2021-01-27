@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Arreglo Objetos</title>
+	<meta charset="utf-8">
+	<script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+	<script>
+
+		$(document).on('ready',function () {
+
+			var gyr = 0; 
+			var json ="";
+
+// BTN Mostrar y Ocultar --------------------------------------------------------------------------------------------------------
+
+			var count = 1;
+			var nombre,ap,am,ed,ac;
+			var nombrex,apx,amx,edx,acx,axx;
+			var idEdit;
+			var idCount = 0;	
+
+			var cheObj;
+
+			var empleados = [];
+
+			$("#btnI").on( "click", function() {
+				
+				$('#tabla2').show();
+				$('#btnC').show();
+
+				gyr=1;
+
+			});
+
+			$("#btnC").on( "click", function() {
+
+					$('#idt2').val('');
+					$('#nombret2').val('');
+					$('#apPt2').val('');
+					$('#apMt2').val('');
+					$('#edad').val('');
+
+					$('#tabla2').hide();
+					$('#btnC').hide();
+
+});
+
+//BTN Guardar -------------------------------------------------------------------------------------------------------------------
+
+	function Empleado(id,nombre,ap,am,edad,activo){
+
+		this.Id=id;
+		this.Nombre= nombre;
+		this.ApellidoPaterno=ap;
+		this.ApellidoMaterno=am;
+		this.Edad=edad;
+		this.Activo=activo;
+
+	}
+
+			$("#btnG").on( "click", function() {
+
+
+				var nombre = $('#nombret2').val();
+				var ap = $('#apPt2').val();
+				var am = $('#apMt2').val();
+				var edad = $('#edad').val();
+				
+				var activo; //= $('#activo').val();
+
+				var comprobar='';
+
+				if ($('#activo').prop('checked')){
+					comprobar ='checked';
+					activo=true;
+				}else{
+					comprobar='';
+					activo=false;
+				}
+             
+
+
+
+				if (gyr == 1){
+
+			if ( ap.length == 0 || am.length == 0 || nombre.length == 0 || edad.length == 0  ){
+
+				alert('Hay campos vacios');
+				$('#btnC').hide();
+				gyr=0;
+
+			}else{
+
+				idCount ++;
+				var id = idCount;
+
+				var emp = new Empleado(id,nombre,ap,am,edad,activo);
+				empleados.push(emp);
+
+   			var add = '<tr id="' + idCount + '" class="b">'+
+
+       						 '<td id="' + idCount + '" class = "a" >' + idCount + '</td>'+
+       						 '<td id="' + idCount + '1" class = "a">' + nombre + '</td>'+
+        					 '<td id="' + idCount + '2" class = "a">' + ap + '</td>'+
+        					 '<td id="' + idCount + '3" class = "a">' + am + '</td>'+
+        					 '<td id="' + idCount + '4" class = "a">' + edad + '</td>'+
+        					 '<td id="' + idCount + '5" class = "a">' + '<input type="checkbox" '+ comprobar +' class="activo" disabled value="activo"  id="' + idCount+ idCount +idCount+'">' + '</td>'+
+        					 '<td id="' + idCount + '6">' + '<input type="button" class="borrar" value="Eliminar"  id="' + idCount +'">' + '</td>'+
+        					 '<td id="' + idCount + '7">' + '<input type="button" class="editar" value="Editar" id="'+idCount+'">' + '</td>'+
+      						'</tr>';
+
+      						gyr=0;
+      							$("#idt2").prop('disabled', false);
+      						$('#btnC').hide();
+     
+			}
+
+} 
+//Aqui empieza la editada
+
+if (gyr == 2) {
+
+	var nombre2 = $('#nombret2').val();
+	var ap2 = $('#apPt2').val();
+	var am2 = $('#apMt2').val();
+	var ed2 = $('#edad').val();
+	//var ac2 = $('#activo').val();
+
+	if ($('#activo').prop('checked')){
+
+		axx.prop("checked", true);
+		cheObj=true;
+
+	}else{
+
+		axx.prop("checked", false);
+		cheObj=false;
+	}
+
+
+	$(nombrex).html(nombre2);
+	$(apx).html(ap2);
+	$(amx).html(am2);
+	$(edx).html(ed2);
+	
+
+	//-----
+
+
+
+	//-----
+
+
+let obj = empleados.find(o => o.Id == idEdit);
+
+obj.Nombre = nombre2;
+obj.ApellidoPaterno = ap2;
+obj.ApellidoMaterno = am2;
+obj.Edad = ed2;
+obj.Activo=cheObj;
+
+
+/*
+	for (var i =0; i < empleados.length; i++) {
+			
+			if (empleados[i].Id  === idEdit) {
+
+				var indexx = i;
+
+			}
+
+	}
+*/
+	
+
+
+	//------
+
+
+
+$("#idt2").prop('disabled', false);
+
+gyr=0;
+
+}
+
+//Aqui termina la editada	
+
+   				$('#tabla1 tbody').append(add);
+
+   					$('#idt2').val('');
+					$('#nombret2').val('');
+					$('#apPt2').val('');
+					$('#apMt2').val('');
+					$('#edad').val('');
+					$('#activo').val('');
+					$('#tabla2').hide();
+					$('#btnC').hide();
+
+				});
+
+
+
+//BTN Eliminar ----------------------------------------------------------------------------------------------------------
+
+$(function () {
+    $(document).on('click', '.borrar', function (event) {
+        event.preventDefault();
+
+		var eliminar = $(this).attr("id");
+
+		//var n = eliminar.toString();
+	
+		console.log(eliminar);
+
+let obj = empleados.find(o => o.Id == eliminar);
+var idx = empleados.indexOf(eliminar);
+
+empleados.splice(idx,1);
+
+
+		$(this).closest('tr').remove();
+		
+
+    });
+});
+
+
+//BTN Editar ------------------------------------------------------------------------------------------------------
+
+$(function () {
+    $(document).on('click', '.editar', function (event) {
+        event.preventDefault();
+$("#idt2").prop('disabled', true);
+        gyr = 2;
+
+        $('#tabla2').show();
+		$('#btnC').show();
+
+		var id;
+
+		id = $(this).attr("id");
+		idEdit = $(this).attr("id");
+
+		nombre = $('#' + id + '1').text();
+		ap = $('#' + id + '2').text();
+		am = $('#' + id + '3').text();
+		ed = $('#' + id + '4').text();
+		ac = $('#' + id + '5').text();
+
+		acc =$('#' + id +id + id);
+		axx =$('#' + id +id + id);
+
+		nombrex = '#' + id + '1';
+		apx = '#' + id + '2';
+		amx = '#' + id + '3';
+		edx = '#' + id + '4';
+		acx = '#' + id + '5';
+
+		$('#idt2').val(id);
+		$('#nombret2').val(nombre);
+		$('#apPt2').val(ap);
+		$('#apMt2').val(am);
+		$('#edad').val(ed);
+			
+
+		if (acc.prop('checked')) {
+
+			$('#activo').prop("checked", true);
+
+		}else{
+
+			$('#activo').prop("checked", false);	
+
+		}	
+
+		
+
+		
+
+
+
+    });
+
+});
+
+
+//incio de JSON boton ------------------------------------------------------------------------------------------
+
+$("#btnE").on( "click", function() {
+
+
+var myObj = {};
+myObj.Empleados = empleados;
+
+
+
+$('#jsonP').html(JSON.stringify(myObj));
+
+
+});
+
+//Fin Json----------------------------------------------------------------------------------------------------------
+
+});
+
+
+
+	</script>
+
+<style type="text/css">
+
+	#btnC{
+	
+	display:none;
+
+	}
+
+	#tabla2{
+
+		display:none;
+		
+	}
+	
+	table
+	{
+		border: black 2px solid;
+	}
+
+	th{
+border: black 2px solid;
+
+	}
+
+	td
+	{
+		border: black 2px solid;	
+	}	
+
+	#btnG
+	{
+		width: 200px;
+		 color:white;
+		 background:#63E70D;
+	}
+
+	#btnI
+	{
+		width: 200px;
+		 color:white;
+		 background:#638cb5;
+	}
+
+	#btnE
+	{
+		width: 200px;
+		 color:white;
+		 background:#811459;
+	}
+	#btnC
+	{
+		width: 200px;
+		 color:white;
+		 background:#898487;
+	}
+	#json{
+
+		width:900px;
+		background: #A8A8A8;
+		height:250px; 
+
+	}
+
+</style>
+</head>
+
+<body>
+
+
+
+
+<table id="tabla1">
+	<tr id="trr" class="">
+
+		<th>id</th>
+		<th>Nombre</th>
+		<th>Apellido Paterno</th>
+		<th>Apellido Materno</th>	
+		<th>Edad</th>
+		<th>Activo</th>
+		<th>Opc1</th>
+		<th>Opc2</th>	
+
+	</tr>
+
+</table>
+
+<br><br>
+
+
+
+<table id="tabla2" d>
+	<tr>
+		<td>Nombre</td>
+		<td>Apellido Paterno</td>
+		<td>Apellido Materno</td>
+		<th>Edad</th>
+		<th>Activo</th>	
+
+	</tr>
+
+	<tr>
+
+		<td><input type="text" id="nombret2" name="nombret2" value="" ></td>
+		<td><input type="text" id="apPt2" name="apPt2" value="" ></td>
+		<td><input type="text" id="apMt2" name="apMt2" value="" ></td>	
+		<td><input type="text" id="edad" name="edad2" value="" ></td>
+		<td> <input type="checkbox" id="activo" name="activo" value="true" checked> </td>	
+
+	</tr>
+
+</table>
+
+	<br>
+		
+	<input type="submit" name="cancela" value="Cancelar" id="btnC">
+	<br><br>					
+	<input type="submit" name="guardar" value="Guardar" id="btnG">
+	<input type="submit" name="insertar" value="Insertar" id="btnI">
+	<input type="submit" name="exportar" value="Exportar" id="btnE">
+	
+		
+	<div id="json">
+		
+ 
+ 		<p id="jsonP"></p>
+
+
+	</div>
+
+
+</body>
+
+</html>

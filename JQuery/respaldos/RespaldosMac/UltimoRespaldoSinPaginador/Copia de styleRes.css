@@ -1,0 +1,87 @@
+
+	#Filtro{
+		width:400px;
+		background-color:#BBBBBB;
+		color:black;
+		font-size: 20px;
+		height:50px;  
+	}
+
+	#btnInicial{
+	width: 200px;
+ color:white;
+ background:red;
+
+	}
+
+	#btnC{
+	
+	display:none;
+
+	}
+
+	#tabla2{
+
+		display:none;
+		
+	}
+	
+	table
+	{
+		border: black 1px solid;
+	}
+
+	th{
+	border: black 1px solid;
+	}
+
+	td
+	{
+		border: black 1px solid;	
+	}	
+
+	#btnGuardar
+	{
+		width: 200px;
+		 color:white;
+		 background:#63E70D;
+	}
+
+	#btnInsertar
+	{
+		width: 200px;
+		 color:white;
+		 background:#638cb5;
+	}
+
+	#btnExportar
+	{
+		width: 200px;
+		 color:white;
+		 background:#811459;
+	}
+	#btnCancelar{
+		width: 200px;
+		 color:white;
+		 display:none;
+		 background:#898487;
+	}
+	
+	#json{
+		width:900px;
+		background: #A8A8A8;
+		height:150px; 
+		}
+
+	#activs{
+	border: black .5 px solid;
+	}
+
+	#th1{
+	border: black 0px solid;
+	}
+
+
+
+
+

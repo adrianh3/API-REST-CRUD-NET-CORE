@@ -1,0 +1,168 @@
+
+	#Filtro{
+		width:200px;
+		background-color:#B0B0B0;
+		color:black;
+		font-size: 20px;
+		height:50px;  
+	}
+
+	#btnInicial{
+	width: 200px;
+ 
+	}
+
+	#btnC{
+	
+	display:none;
+
+	}
+
+
+	#tablaDatoscoutn td{
+ 	
+ 	text-align: center;
+ 	padding: -0.50rem;
+
+	}
+
+	#tablaDatoscoutn td p{
+    margin-top: -8px;
+    margin-bottom: -0.5rem;
+	
+	}
+
+
+
+	}
+
+	#tabla2{
+
+		display:none;
+		
+	}
+
+	.selectts{
+
+		width:20px;
+		height:80px;
+
+	}
+	
+	#filtroActivo{
+
+	width:30px;
+	height:30px;
+	}
+
+	#ListaNombre{
+
+	width:100px;
+	height:36px;
+	}
+
+	#ListaAp{
+	width:115px;
+	height:36px;
+
+	}
+
+	#ListaAm{
+	width:150px;
+	height:36px;
+	}
+
+	#ListaEd{
+	width:100px;
+	height:36px;
+	}
+	th{
+	border: black 1px solid;
+	}
+
+	td
+	{
+		border: black 1px solid;	
+	}	
+
+	#btnGuardar
+	{
+		width: 200px;
+	}
+
+	#btnInsertar
+	{
+		width: 200px;
+	
+	}
+
+	#btnExportar
+	{
+		width: 200px;
+
+	}
+	#btnCancelar{
+		width: 200px;
+        display:none;
+	}
+	
+	#json{
+		width:900px;
+		background: #A8A8A8;
+		height:150px; 
+		}
+
+	#activs{
+	padding: 50px;
+	}
+
+
+	#th1{
+	border: black 0px solid;
+	}
+
+	.Storage{
+		width: 200px;
+		 color:white;
+		 background:black;
+	}
+
+	.Paginacion{
+		width: 100px;
+		color: #FFFF;
+		background:black;
+	}
+
+	#divPaginacion{
+		
+		text-align: center;
+		
+	}
+
+	#tabla1{
+		text-align: center;
+		margin: 0 auto;
+
+	}
+
+	#filtroxs{
+		margin-left: 300px
+	}
+
+	#actiText{
+		padding-left: 680px;
+	}
+
+	#actiText2{
+		padding-left: 20px;
+	}
+  body{
+
+  	 background-image: url("img/fondo.png");
+  }
+
+  #imgInInEx{
+
+  	margin-right: 10px;
+
+  }

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Uso de objetos</title>
+		<meta charset="utf-8">
+	<script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<link rel=StyleSheet href="style.css" TYPE="text/css" MEDIA=screen>
+	<script src="script.js"></script>
+
+	<script >
+		
+	var activoElFiltro;
+
+		$(document).on('ready',function () {
+
+			$('input#Filtro').on("keyup",function(){
+
+				var adn = $(this).val();
+				Filtro(adn);
+
+			});
+
+			$('input#filtroActivo').on("click",function(){
+
+			
+				if( $('#filtroActivo').prop('checked') ) {
+
+    				activoElFiltro = true;
+
+				}else{
+					activoElFiltro = false;
+				}	
+
+
+				filtroCheckBox(activoElFiltro);
+
+
+			});
+
+
+
+$("#btnGuardar").on( "click", function() {
+
+				var nombre = $('#nombret2').val();
+				var ap = $('#apPt2').val();
+				var am = $('#apMt2').val();
+				var edad = $('#edad').val();
+
+				var comprobar='';
+
+				if ($('#activo').prop('checked')){
+					comprobar ='checked';
+					activo=true;
+				}else{
+					comprobar='';
+					activo=false;
+				}
+
+
+				if (gyr == 1){
+
+				if ( ap.length == 0 || am.length == 0 || nombre.length == 0 || edad.length == 0  ){
+
+				alert('Hay campos vacios');
+				$('#btnCancelar').show();
+				gyr=1;
+					
+					}else{
+
+				idCount ++;
+				var id = idCount;
+
+				var emp = new Empleado(id,nombre,ap,am,edad,activo);
+				empleados.push(emp);
+
+				myObj.Empleados = empleados;
+
+			cargarDatos();
+				gyr=0;
+      		Limpiar();
+
+
+			}	
+
+				}
+	if (gyr == 2) {
+
+
+	var nombre2 = $('#nombret2').val();
+	var ap2 = $('#apPt2').val();
+	var am2 = $('#apMt2').val();
+	var ed2 = $('#edad').val();
+
+
+	if ($('#activo').prop('checked')){
+		cheObj=true;
+
+	}else{
+		cheObj=false;
+	}
+
+	let obj = empleados.find(o => o.Id == IdEditar);
+
+	obj.Nombre = nombre2;
+	obj.ApellidoPaterno = ap2;
+	obj.ApellidoMaterno = am2;
+	obj.Edad = ed2;
+	obj.Activo=cheObj;
+
+	gyr=0;
+
+	Limpiar();
+	cargarDatos();
+					
+ 	}
+
+	});
+
+
+});
+
+	
+
+	</script>
+
+</head>
+
+
+
+<body>
+
+<table id="tabla1">
+		<thead>
+		<tr id="tsr" class="">
+
+		<th>id</th>
+		
+
+		<th>Nombre ->
+			<select id="ListaNombre" onchange="FiltroBoxesNombres()">
+					<option id="opNo">Nombres</option>
+			</select>
+		</th>
+
+		<th>Apellido Paterno ->
+			<select id="ListaAp" onchange="FiltroBoxesAP()">
+					<option id="opAp">Paternos</option>
+			</select>
+		</th>
+
+		<th>Apellido Materno ->
+			<select id="ListaAm" onchange="FiltroBoxesAM()">
+					<option id="opAm">Maternos</option>
+			</select>
+		</th>	
+
+		<th>Edad ->
+			<select id="ListaEd" onchange="FiltroBoxesED()">
+					<option id="opEd">Edad</option>
+			</select>
+		</th>
+
+
+		<th>Activo</th>
+		<th>Opc1</th>
+		<th>Opc2</th>	
+	</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+
+<br>
+
+<table id="tabla2">
+	<tr>
+		<td>Nombre</td>
+		<td>Apellido Paterno</td>
+		<td>Apellido Materno</td>
+		<th>Edad</th>
+		<th>Activo</th>	
+
+	</tr>
+
+	<tr>
+
+		<td><input type="text" id="nombret2" name="nombret2" value="" ></td>
+		<td><input type="text" id="apPt2" name="apPt2" value="" ></td>
+		<td><input type="text" id="apMt2" name="apMt2" value="" ></td>	
+		<td><input type="text" id="edad" name="edad2" value="" ></td>
+		<td> <input type="checkbox" id="activo" name="activo" value="true" checked> </td>	
+
+	</tr>
+
+</table>
+
+	<br>
+		
+	<input type="submit" name="cancela" value="Cancelar" id="btnCancelar" onClick="Cancelar()">
+	<br><br>					
+	<input type="submit" name="guardar" value="Guardar" id="btnGuardar">
+	<input type="submit" name="insertar" value="Insertar" id="btnInsertar" onClick="Insertar()">
+	<input type="submit" name="exportar" value="Exportar" id="btnExportar" onClick="Exportar()">
+	<input type="submit" name="Datos Iniciales" value="Inicial" id="btnInicial" onClick="Iniciar()">
+		
+	<div id="json">
+		
+ 		<p id="jsonP"></p>
+
+	</div>
+
+	<br>
+	<h2>Filtro Chido</h2>
+<table id="activs">
+	
+	<th id="th1"><input type="text" name="filtro" placeholder="Filtro" id="Filtro"></th>
+
+
+    <th id="th1"><h4>Ver los activos ?  --> </h4></th>
+	<th id="th1"><input type="checkbox" id="filtroActivo" name="filtroActivo" value="true" checked></th>
+	<th id="th1"> <h4>  Se esta buscando: </h4></th>
+	<th id="th1"> <p id="Filtro2"></p> </th>
+
+</table>
+
+
+
+
+
+</body>
+
+</style>
+</html>

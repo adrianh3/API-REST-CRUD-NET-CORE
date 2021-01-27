@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Uso de objetos</title>
+		<meta charset="utf-8">
+	<script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<link rel=StyleSheet href="style.css" TYPE="text/css" MEDIA=screen>
+	<script src="script.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+</head>
+
+<body>
+
+
+
+<table id="tabla1">
+		<thead>
+
+
+
+		<tr id="tsr" class="">
+
+		<th>id</th>
+		
+
+		<th>Nombre ->
+			<select id="ListaNombre" onchange="FiltroBoxesNombres()">
+					<option id="opNo">Nombres</option>
+			</select>
+		</th>
+
+		<th>Apellido Paterno ->
+			<select id="ListaAp" onchange="FiltroBoxesAP()">
+					<option id="opAp">Paternos</option>
+			</select>
+		</th>
+
+		<th>Apellido Materno ->
+			<select id="ListaAm" onchange="FiltroBoxesAM()">
+					<option id="opAm">Maternos</option>
+			</select>
+		</th>	
+
+		<th>Edad ->
+			<select id="ListaEd" onchange="FiltroBoxesED()">
+					<option id="opEd">Edad</option>
+			</select>
+		</th>
+
+
+		<th>Activo</th>
+		<th>Opc1</th>
+		<th>Opc2</th>	
+	</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+
+	<br>
+		<div id="divPaginacion">
+		<input type="submit" name="Inicio" value="Inicio" id="btnInicio" class="Paginacion" onClick="Inicio()">
+		<input type="submit" name="Anterior" value="<-" id="btnAnterior" class="Paginacion" onClick="Anterior()">
+		<input type="submit" name="Siguiente" value="->" id="btnSiguiente" class="Paginacion" onClick="Siguiente()">
+		<input type="submit" name="Final" value="Final" id="btnFinal" class="Paginacion" onClick="Final()">
+		</div>
+	<br><br>
+
+<table id="tabla2">
+	<tr>
+		<td>Nombre</td>
+		<td>Apellido Paterno</td>
+		<td>Apellido Materno</td>
+		<th>Edad</th>
+		<th>Activo</th>	
+
+	</tr>
+
+	<tr>
+
+		<td><input type="text" id="nombret2" name="nombret2" value="" ></td>
+		<td><input type="text" id="apPt2" name="apPt2" value="" ></td>
+		<td><input type="text" id="apMt2" name="apMt2" value="" ></td>	
+		<td><input type="text" id="edad" name="edad2" value="" ></td>
+		<td> <input type="checkbox" id="activo" name="activo" value="true" checked> </td>	
+
+	</tr>
+
+</table>
+
+	<br>
+
+
+	<input type="submit" name="cancela" value="Cancelar" id="btnCancelar" onClick="Cancelar()">
+	<br><br>					
+	<input type="submit" name="guardar" value="Guardar" id="btnGuardar">
+	<input type="submit" name="insertar" value="Insertar" id="btnInsertar" onClick="Insertar()">
+	<input type="submit" name="exportar" value="Exportar" id="btnExportar" onClick="Exportar()">
+	<input type="submit" name="Datos Iniciales" value="Inicial" id="btnInicial" onClick="Iniciar()">
+
+
+	<br>
+
+	<h2>Filtro Chido</h2>
+
+
+
+<table id="activs">
+	
+	<th id="th1"><input type="text" name="filtro" placeholder="Filtro" id="Filtro"></th>
+
+
+    <th id="th1"><h4>Ver los activos ?  --> </h4></th>
+	<th id="th1"><input type="checkbox" id="filtroActivo" name="filtroActivo" value="true" checked></th>
+	<th id="th1"> <h4>  Se esta buscando: </h4></th>
+	<th id="th1"> <p id="Filtro2"></p> </th>
+
+</table>
+
+
+
+
+</body>
+
+</style>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	
+	<title>Uso de objetos</title>
+
+	<script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<link rel=StyleSheet href="style.css" TYPE="text/css" MEDIA=screen>
+	<script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link rel="stylesheet"  href="css/bootstrap.min.css">
+
+
+</head>
+
+<body>
+	
+	<div class="container">
+	<br>
+	
+<center><h2 class="text-muted">CONTROL DE MANDO</h2></center>
+
+<table id="activs">
+
+
+	<th id="th1"><input class="form-control" type="text" name="filtro" placeholder="Filtro" id="Filtro"></th>
+
+
+    <th id="th1"><h4 id="actiText">Ver los activos ? </h4></th>
+	<th id="th1"><input  type="checkbox" id="filtroActivo" name="filtroActivo" value="true" checked></th>
+
+
+
+
+</table>
+
+	<br>
+
+<table id="tabla1" class="table">
+		<thead class="">
+
+		<tr id="tsr" class="thead-dark">
+
+		<th>#</th>	
+
+		<th>id</th>
+		
+
+		<th>Nombre 
+			<select class="custom-select mr-sm-2" id="ListaNombre" onchange="FiltroBoxesNombres()">
+					<option id="opNo">Todos</option>
+			</select>
+		</th>
+
+		<th>Apellido Paterno 
+			<select class="custom-select mr-sm-2" id="ListaAp" onchange="FiltroBoxesAP()">
+					<option id="opAp">Paternos</option>
+			</select>
+		</th>
+
+		<th>Apellido Materno 
+			<select class="custom-select mr-sm-2" id="ListaAm" onchange="FiltroBoxesAM()">
+					<option id="opAm">Maternos</option>
+			</select>
+		</th>	
+
+		<th>Edad 
+			<select class="custom-select mr-sm-2" id="ListaEd" onchange="FiltroBoxesED()">
+					<option id="opEd">Edad</option>
+			</select>
+		</th>
+
+
+		<th>Activo</th>
+		<th>Eliminar Cancelar</th>
+		<th>Editar Guardar</th>	
+	</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+	
+	<div>
+			
+			<table id="tablaDatoscoutn" class="table table-striped table-dark">	
+				
+
+			<td> <h6>Total De  Páginas </h6> <p id="totalPaginas"> 0 </p> </td>
+			<td> <h6>Numero De Página Actual </h6> <p id="numeroPagina"> 0 </p> </td>
+			<td> <h6>Total de Datos </h6> <p id="totalDatos"> 0 </p> </td>
+			
+			</table>
+
+	</div>
+
+	<br>
+	<div id="divPaginacion">
+	
+	<button type="button" name="Inicio" id="btnInicio" class="btn btn-outline-dark" onClick="Inicio()">Inicio</button>
+	<button type="button" name="Anterior" id="btnAnterior" class="btn btn-outline-dark" onClick="Anterior()"> <img src="img/izq.png" alt="x" /> </button>
+	<button type="button" name="Siguiente" id="btnSiguiente" class="btn btn-outline-dark" onClick="Siguiente()"> <img src="img/der.png" alt="x" /> </button>
+	<button type="button" name="Final" id="btnFinal" class="btn btn-outline-dark" onClick="Final()"> Final </button>
+	</div>
+
+	<br>
+
+<table class="table table-dark" id="tabla2">
+
+	<tr>
+		<td>Nombre</td>
+		<td>Apellido Paterno</td>
+		<td>Apellido Materno</td>
+		<th>Edad</th>
+		<th>Activo</th>	
+
+	</tr>
+
+	<tr>
+
+		<td><input class="form-control" type="text" id="nombret2" name="nombret2" value="" ></td>
+		<td><input class="form-control" type="text" id="apPt2" name="apPt2" value="" ></td>
+		<td><input class="form-control" type="text" id="apMt2" name="apMt2" value="" ></td>	
+		<td><input class="form-control" type="text" id="edad" name="edad2" value="" onkeypress='return validaNumericos(event)'></td>
+		<td> <input class="form-control" type="checkbox" id="activo" name="activo" value="true" checked> </td>	
+
+	</tr>
+
+</table>
+	
+
+	<center>
+
+	<button type="button" name="guardar" id="btnGuardar" class="btn btn-outline-success" onClick="Guardar()">  
+	<img id="imgInInEx" src="img/guardar.png" alt="x" />Guardar</button>
+
+	<button type="button" name="cancela" id="btnCancelar" class="btn btn-outline-danger" onClick="Cancelar()">  
+	<img id="imgInInEx" src="img/cancelar.png" alt="x" />Cancelar</button>
+	
+
+	</center>
+	<br><br>
+
+	<center>
+					
+	<button type="button" name="Datos Iniciales" id="btnInicial" class="btn btn-outline-danger" onClick="Iniciar()">  
+	<img id="imgInInEx" src="img/inicio.png" alt="x" />Iniciar</button>
+
+	<button type="button" name="insertar" id="btnInsertar" class="btn btn-outline-info"  onClick="Insertar()">
+	<img id="imgInInEx" src="img/insertar.png" alt="x" />Insertar</button>
+
+	<button type="button" name="exportar" id="btnExportar" class="btn btn-outline-warning"  onClick="Exportar()">
+	<img id="imgInInEx" src="img/exportar.png" alt="x" />Exportar</button>
+	
+
+	</center>
+
+	<br><br>
+
+
+
+ </div>	
+<br> <br>
+<script src="js/bootstrap.min.js" ></script>
+
+</body>
+
+</style>
+</html>
